@@ -8,6 +8,7 @@ import Textarea from 'react-expanding-textarea';
 class Poll extends React.Component {
   constructor() {
     super();
+    this.state = { createPoll: false };
     this.state = {
       question: '',
       options: [{ option: ''}, { option: ''}, { option: ''}], 
@@ -33,9 +34,11 @@ class Poll extends React.Component {
   }
   
   handleSubmit(e) {
-    const { question, options } = this.state;
-    console.log(`Poll: ${question} with ${options} options`)
-    console.log(options);
+    /*const { question, options } = this.state;
+    alert(`Poll: ${question} with ${options} options`)
+    console.log(options);*/
+    e.preventDefault()
+    this.setState({ createPoll: true })
   }
   
   handleAddOption(e) {
@@ -70,8 +73,7 @@ if(!this.state.polls){
 }
 
 // Until here*/
-
-  render() { 
+  render() {
     return (
       <form className="poll" onSubmit={this.handleSubmit}>
         <Textarea
@@ -96,6 +98,14 @@ if(!this.state.polls){
           <button className="post">Post</button>
         </div>
       </form>
+    )
+  }
+}
+
+class Actualpoll extends React.Component {
+  render() {
+    return (
+      <div>hi</div>
     )
   }
 }

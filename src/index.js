@@ -73,7 +73,7 @@ class Handler extends React.Component {
 class Pollcreator extends React.Component {
   render() {
     return (
-       <form className="pollinput" onSubmit={this.props.handleSubmit}>
+       <form className="pollinput">
         <Textarea
           className="textbox"
           type="text"
@@ -94,7 +94,7 @@ class Pollcreator extends React.Component {
           </div>
         ))}
         <div className="buttonArea">
-          <button className="post">Post</button>
+          <button className="post" onClick={this.props.handleSubmit}>Post</button>
         </div>
       </form>
     )
@@ -114,11 +114,8 @@ class Poll extends React.Component {
 
   render() {
     return (
-     <form className="">
-        <Textarea className="question"
-          type="text"
-          value={this.props.question}
-        />
+     <form className="poll">
+        <h1 className="question" type="text">{this.props.question}</h1>
         {this.props.options.map((option, idx) => (
           <div>
             <button type="text" id={`#${idx +1}`} onClick={this.handleClick} className="option">

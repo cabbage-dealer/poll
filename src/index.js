@@ -2,10 +2,11 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import registerServiceWorker from './registerServiceWorker';
 import './index.css';
+import './pollstyle.css';
 import $ from 'jquery';
 import Textarea from 'react-expanding-textarea';
 
-class Poll extends React.Component {
+class Handler extends React.Component {
   constructor() {
     super();
     this.state = { createPoll: false };
@@ -30,28 +31,18 @@ class Poll extends React.Component {
     });
     
     this.setState({ options: newOptions });
-    console.log(this.state.options)
   }
   
   handleSubmit(e) {
-    /*const { question, options } = this.state;
-    alert(`Poll: ${question} with ${options} options`)
-    console.log(options);*/
     e.preventDefault()
     this.setState({ createPoll: true })
+    this.setState({ options: this.state.options.filter(s => s.option !== '') })
   }
   
   handleAddOption(e) {
     this.setState({ options: this.state.options.concat([{ option: '' }]) });
   }
   
- /* handleRemoveOption = (idx) => () => {
-    //if(idx>=3) {
-    console.log(idx)
-    console.log(this.state.options.sidx)
-    this.setState({ options: this.state.options.filter((s, sidx) => idx !== sidx) });
-    //}
-  }*/
   componentDidMount() {
     $("input:last").click(this.handleAddOption)
   }
@@ -61,36 +52,44 @@ class Poll extends React.Component {
     $("input:last").click(this.handleAddOption)
   }
 
-/*// Delete this
-if(!this.state.polls){
-  render()
-} else {
-  dontRender()
-}
-
-{
-  {!this.state.polls ? <MyComponent > : dontRender()}
-}
-
-// Until here*/
   render() {
     return (
-      <form className="poll" onSubmit={this.handleSubmit}>
+      !this.state.createPoll 
+      ? <Pollcreator 
+      handleSubmit = {this.handleSubmit}
+      question = {this.state.question}
+      handleNameChange = {this.handleNameChange}
+      options = {this.state.options}
+      handleOptionNameChange = {this.handleOptionNameChange}
+      />
+      : <Poll 
+          question = {this.state.question}
+          options = {this.state.options}
+      />
+    )
+  }
+}
+
+class Pollcreator extends React.Component {
+  render() {
+    return (
+       <form className="pollinput" onSubmit={this.props.handleSubmit}>
         <Textarea
           className="textbox"
           type="text"
           placeholder="Ask something..."
-          value={this.state.question}
-          onChange={this.handleNameChange}
+          value={this.props.question}
+          onChange={this.props.handleNameChange}
         />
-        {this.state.options.map((option, idx) => (
+        {this.props.options.map((option, idx) => (
           <div className="pollInputArea">
             <input
+              className="input"
               type="text"
               id={`#${idx +1}`}
               placeholder="Add an option..."
               value={option.msg}
-              onChange={this.handleOptionNameChange(idx)}
+              onChange={this.props.handleOptionNameChange(idx)}
             />
           </div>
         ))}
@@ -102,14 +101,36 @@ if(!this.state.polls){
   }
 }
 
-class Actualpoll extends React.Component {
+class Poll extends React.Component {
+  constructor() {
+    super();
+
+    this.handleClick=this.handleClick.bind(this)
+  }
+
+  handleClick(e) {
+    e.preventDefault();
+  }
+
   render() {
     return (
-      <div>hi</div>
+     <form className="">
+        <Textarea className="question"
+          type="text"
+          value={this.props.question}
+        />
+        {this.props.options.map((option, idx) => (
+          <div>
+            <button type="text" id={`#${idx +1}`} onClick={this.handleClick} className="option">
+            {option.option}
+            </button>
+          </div>
+        ))}
+      </form>
     )
   }
 }
 
-ReactDOM.render(<Poll />, root);
+ReactDOM.render(<Handler />, root);
 
 registerServiceWorker();

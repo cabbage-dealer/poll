@@ -1,4 +1,4 @@
-.poll {
+.pollinput {
 	display:flex;
 	flex-direction: column;
 	width: fit-content;
@@ -7,11 +7,9 @@
 	border: solid grey 1px;
 	outline: none;
 	padding-top: 5px;
-	
-
 }
 
-input {
+.input {
 	width: 500px;
 	border-top: none;
 	border-left: none;
@@ -54,7 +52,6 @@ input {
 	padding: 5px;
 	font-family: 'Lato', sans-serif;
 	cursor: pointer;
-	 
 }
 
 .post:hover {
@@ -64,5 +61,4 @@ input {
 .buttonArea {
 	background-color: #e9ebee;
 	padding: 5px;
-	
 }
